@@ -18,6 +18,7 @@ require(tigerstats)
 require(tidyverse)
 require(leaps)
 require(car)
+Fish <- read.csv(file = "Fish.csv")
 ```
 
 # Predicting Fish Weight
@@ -96,7 +97,37 @@ best.model <- lm(Weight~Height+Width,data=Perch)
 summary(best.model)
 ```
 
+Interpreting our results we see that the best two elements models is using height and width. The best overall model is also the Two element model using height and width using adjusted R squared.
+
 ## Pike
+
+
+```{r}
+Pike <- filter(Fish,Species=="Pike")
+Pike <- select(Pike,-Species)
+```
+
+
+
+
+```{r}
+library(leaps)
+regsubsets.out <-
+regsubsets(Weight ~ .,
+data = Pike,
+nbest = 1, # 1 best model for each number of predictors 
+nvmax = NULL, # NULL for no limit on number of variables
+force.in = NULL, force.out = NULL,
+method = "exhaustive") 
+
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmate)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottom",main="Adjusted R^2")
+```
+
+Interpreting our results we see that the best two elements models is using Length 1 and Length 3. The best overall model is is the best Five Element model using adjusted R squared.
+
 
 ### Best Models
 
@@ -104,8 +135,16 @@ summary(best.model)
 
 ## Roach
 
+
+
+
+
+
 ### Best Models
 
 ### Best Two regressor model
 
 ## Final Summary Statements
+
+
+
