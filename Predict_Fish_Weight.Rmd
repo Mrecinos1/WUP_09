@@ -16,9 +16,50 @@ output:
 ```{r include=FALSE,echo=FALSE}
 require(tigerstats)
 require(tidyverse)
+require(leaps)
+require(car)
 ```
 
 # Predicting Fish Weight
+
+```{r}
+Perch <- filter(Fish,Species=="Perch")
+Perch <- select(Perch,-Species)
+```
+
+```{r}
+PerchModel1<- lm(Weight~.,Perch)
+summary(PerchModel1)
+```
+
+
+
+```{r}
+PerchModel2<- lm(Weight~. -Length1,Perch)
+summary(PerchModel2)
+```
+
+
+
+
+```{r}
+PerchModel3<- lm(Weight~. -Length1 -Length2,Perch)
+summary(PerchModel3)
+```
+
+
+
+```{r}
+PerchModel4<- lm(Weight~. -Length1 -Length2 -Length3,Perch)
+summary(PerchModel4)
+```
+
+
+```{r}
+PerchModel5<- lm(Weight~. -Length1 -Length2 -Length3 -Width,Perch)
+summary(PerchModel5)
+```
+
 
 
 ## Perch
