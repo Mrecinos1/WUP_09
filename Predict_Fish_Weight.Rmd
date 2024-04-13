@@ -135,16 +135,35 @@ Interpreting our results we see that the best two elements models is using Lengt
 
 ## Roach
 
-
-
-
-
-
+```{r}
+Roach <- filter(Fish,Species=="Roach")
+Roach <- select(Roach,-Species)
+```
 ### Best Models
 
-### Best Two regressor model
+```{r}
+library(leaps)
+regsubsets.out <-
+regsubsets(Weight ~ .,
+data = Roach,
+nbest = 1, # 1 best model for each number of predictors 
+nvmax = NULL, # NULL for no limit on number of variables
+force.in = NULL, force.out = NULL,
+method = "exhaustive") 
+
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmate)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottom",main="Adjusted R^2")
+```
+
+
+Interpreting our results we see that the best two elements models is using Length 3 and Width. The best overall model is also 2 element models using length 3 and width using adjusted R squared.
+
+
 
 ## Final Summary Statements
 
+I learned how to use leap and learn how to start code from scratch removing statements until I got the best adjusted R squared model.
 
 
