@@ -60,14 +60,41 @@ PerchModel5<- lm(Weight~. -Length1 -Length2 -Length3 -Width,Perch)
 summary(PerchModel5)
 ```
 
+```{r}
+regsubsets.out <- regsubsets(Weight~., data=Perch, nbest=1, nvmax=NULL, force.in=NULL, force.out=NULL,
+    method="exhaustive")
+summary.out <- summary(regsubsets.out)
+```
 
+```{r}
+library(leaps)
+regsubsets.out <-
+regsubsets(Weight ~ .,
+data = Perch,
+nbest = 1, # 1 best model for each number of predictors 
+nvmax = NULL, # NULL for no limit on number of variables
+force.in = NULL, force.out = NULL,
+method = "exhaustive") 
 
-## Perch
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmate)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottom",main="Adjusted R^2")
+```
+
 
 ### Best Models
 
-### Best Two regressor model
-
+```{r}
+which.max(summary.out$adjr2)
+```
+```{r}
+summary.out$which[2,]
+```
+```{r}
+best.model <- lm(Weight~Height+Width,data=Perch)
+summary(best.model)
+```
 
 ## Pike
 
